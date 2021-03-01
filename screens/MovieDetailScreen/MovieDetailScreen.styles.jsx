@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#ffffff",
   },
+  posterImage: {justifyContent: 'center', alignItems: 'center', height: 240, width: 345, resizeMode: "contain" },
   h1: {
     fontFamily: "Avenir",
     fontSize: 30,

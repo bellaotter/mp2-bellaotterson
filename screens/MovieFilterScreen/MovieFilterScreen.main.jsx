@@ -15,31 +15,52 @@ const ALL_ACTORS = getAllActors();
 
 // Input: navigation & route params, which we recieve through React Navigation
 // Output: a Movie Filter Screen component, which displays a list of actors to filter on.
-export default function MovieFilterScreen({ navigation, route }) {
+export default function MovieFilterScreen({navigation, route}) {
   const [actors, setActors] = useState([]);
+  
+  // Destructure navigation params from props.
+  
+  const selectedDoneButton = () => {
+    
+    console.log("return: " + actors + "?");
+    navigation.navigate('Main', {screen: 'All Movies', params: {returnedActors: actors}});
+  };
 
-  // TODO: Destructure navigation params from props.
+  console.log("name:" + route.name);
+  console.log("props:" + actors);
 
   useEffect(
     () => {
-      // TODO: Recieve actors passed by MovieListScreen here, and update
+      // Recieve actors passed by MovieListScreen here, and update
       // our local state using setActors.
+      const { sentActors } = route.params;
+      setActors(sentActors);
+      console.log(route.name + "sent: "+ sentActors);
     },
     [
-      /* TODO: Insert dependent variables here. */
+      route.name
     ]
   );
 
   useEffect(
     () => {
-      // TODO: Override the default back button to...
+      // Override the default back button to...
       //  1) Hide the left button.
       //  2) Show a "Done" button on the right that navigates back to the MovieListScreen
       //      and passes back our current list of actors via params.
       // https://reactnavigation.org/docs/header-buttons/
+      navigation.setOptions({
+        headerLeft: null,
+        headerRight: () => (
+          <Button onPress={selectedDoneButton} title="Return" />
+        ),
+      });
+      
     },
     [
-      /* TODO: Insert dependent state variables here. */
+      /* Insert dependent state variables here. */
+      actors
+      
     ]
   );
 
@@ -57,6 +78,7 @@ export default function MovieFilterScreen({ navigation, route }) {
       newActors.push(actor);
     }
     setActors(newActors);
+    console.log(actors);
   };
 
   const renderSelectItem = ({ item, index }) => {
